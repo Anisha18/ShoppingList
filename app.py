@@ -170,6 +170,34 @@ def single_item(id):
                 shopping_list.pop(index)
                 return jsonify(shopping_list)
 
+@app.route('/shopping/cart/<int:id>', methods=['GET', 'POST'])
+def cart_item(id):
+    #cart=[]
+    if request.method == 'GET':
+        for item in shopping_list:
+            if item['id'] == id:
+                return jsonify(item)
+            pass
+    if request.method == 'POST':
+        new_product = request.form['product_name']
+        new_price = request.form['price']
+        new_color = request.form['color']
+        new_size = request.form['size']
+        #iD = len(cart) + 1
+        for item in shopping_list:
+            if item['id'] == id:
+                #new_obj={
+                    #'id':iD,
+                    #'product_name':new_product,
+                    #'price':new_price,
+                    #'size':new_size,
+                    #'color':new_color,
+                #}
+                if item['product_name'] == new_product or item['price'] == new_price and item['color'] == new_color and item['size'] == new_size :
+                    #cart.append(new_obj)
+                    return "You have selected "+item['product_name']+" of price "+str(item['price'])+" and also size "+item['size']+" and color "+item['color']+". Your item has been added to cart."
+        return "This item does not exists in the shopping list."
+    
 
 if __name__ == '__main__':
     app.run()
